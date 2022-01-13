@@ -1,8 +1,8 @@
 import requests
+import config
 import xlwings as xw
 import time
 
-api_key = 'e27632d346617c119235b9be5291ede1'
 url='http://api.openweathermap.org/data/2.5/weather'
 
 def create_workbook():
@@ -23,7 +23,7 @@ def create_workbook():
 
 def get_weather(city_name):
     param={}
-    param['appid']=api_key
+    param['appid']=config.api_key
     param['q']=city_name
     data=requests.get(url,params=param).json()
     temperature=data['main']['temp']
@@ -50,7 +50,7 @@ def update_values():
         humidity=city[2]
         if city[4]==1.0:
             temp,humidity=get_weather(city[0])
-            
+
         if city[3].lower()=='f':
             tempf=(temp*9/5)+32
 
@@ -75,4 +75,3 @@ for i,city in enumerate(cities):
     add_new_city(i,city)
 while True:
     update_values()
-
